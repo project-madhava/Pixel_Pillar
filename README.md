@@ -3,7 +3,7 @@
 This 360° Smart LED display configured using RGB P10 Panels handled via Vega Aries v3. It is completely wireless and controlled entirely through the cloud, meaning you can update your display from your phone remotely. <br>
 <br>
 <br>
-<img width="500" height="830" alt="image" src="https://github.com/user-attachments/assets/fd7ca215-34b6-44b4-b458-eff9434f8c3c" />
+![PixelPillar](images/pixelpillar.png)
 
 ---
 
