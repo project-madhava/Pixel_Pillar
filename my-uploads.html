@@ -9,6 +9,7 @@
         .gallery-item { background: #1e293b; padding: 15px; border-radius: 10px; border: 1px solid #3b82f6; width: 250px; }
         .gallery-item img { max-width: 100%; border-radius: 8px; }
         .gallery-item button { margin-top: 10px; width: 100%; }
+        .subtitle { margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -24,7 +25,7 @@
 <script>
 const uid = localStorage.getItem("userUID");
 
-// CLOUD UPDATE: Removed http://localhost:5000
+// ALL HARDCODED LOCALHOST URLS HAVE BEEN CHANGED TO RELATIVE PATHS
 fetch(`/my-uploads/${uid}`)
 .then(res => res.json())
 .then(data => {
@@ -46,7 +47,6 @@ fetch(`/my-uploads/${uid}`)
 });
 
 async function publishImage(path){
-    
     await fetch("/publish-log", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -60,6 +60,5 @@ async function publishImage(path){
     alert("Image Published!");
 }
 </script>
-
 </body>
 </html>
