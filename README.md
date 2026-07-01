@@ -23,8 +23,7 @@ This 360° Smart LED display configured using RGB P10 Panels handled via Vega Ar
 
 1. Open Safari, Chrome, or any web browser on your phone or computer.
 2. Go to control panel: **[https://nishil-patel-pixelpillar.hf.space](https://nishil-patel-pixelpillar.hf.space)** 
-3. Log in using the default Admin Password: **`led123`**
-4. Check the top of the screen. If you see the **🟢 PixelPillar Online** badge, your screen is ready!
+3. Check the top of the screen. If you see the **🟢 PixelPillar Online** badge, your screen is ready!
 
 ---
 
