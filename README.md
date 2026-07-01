@@ -42,9 +42,10 @@ Once you have your content looking good, simply click **Publish** and watch your
 ---
 
 ## ❓ Troubleshooting
-
+```
 **Q: The dashboard says "🔴 PixelPillar Offline". What do I do?** 
 A: This means your physical screen cannot reach the internet. Ensure it is plugged into power and that Wi-Fi router/ Mobile Data is turned on. 
 
 **Q: I changed my device's Wi-Fi password, or I moved the Pillar to a new location. How do I reconnect it?** 
 A: If the PixelPillar cannot find its saved Wi-Fi network, it will automatically broadcast the **`PixelPillar_Setup`** network again. Just repeat Step 1 to give it your new Wi-Fi details!
+```
