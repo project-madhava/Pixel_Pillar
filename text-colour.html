@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Options</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; color: #94a3b8; font-weight: bold; margin-bottom: 8px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border-radius: 8px; border: none; font-size: 16px; box-sizing: border-box; }
+        .settings-box { background: #1e293b; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <button class="logout-btn" onclick="logout()">Sign Out</button>
+        <h1>Text Customization</h1>
+        <p class="subtitle">Enter your text and customize its appearance</p>
+
+        <div class="text-page">
+            <div class="left-panel" style="flex: 1.5;">
+                
+                <div class="form-group">
+                    <label>Display Text:</label>
+                    <input type="text" id="textInput" placeholder="Hello LED World!" value="Hello LED World!" oninput="updatePreview()">
+                </div>
+
+                <div class="settings-box">
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="color: white;">Enable Scrolling:</label>
+                        <select id="textScroll">
+                            <option value="false">Off (Static)</option>
+                            <option value="true">On (Scrolling)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="color: white;">Scroll Speed (1=Slow, 10=Fast):</label>
+                        <input type="number" id="textSpeed" value="5" min="1" max="10">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>X Position (Column):</label>
+                    <input type="number" id="textX" value="60">
+                </div>
+
+                <div class="form-group">
+                    <label>Y Position (Row - Bottom Up):</label>
+                    <input type="number" id="textY" value="140">
+                </div>
+
+                <div class="form-group">
+                    <label>Font Style:</label>
+                    <select id="fontStyle">
+                        <option value="5x7">System 5x7 Block</option>
+                        <option value="arial">Arial (Smooth)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Scale Multiplier:</label>
+                    <input type="number" id="textScale" value="2" min="1" max="10">
+                </div>
+
+                <div class="form-group">
+                    <label>Text Color:</label>
+                    <select id="textColor" onchange="changeTextColor(this.value)">
+                        <option value="yellow">Yellow</option>
+                        <option value="white">White</option>
+                        <option value="red">Red</option>
+                        <option value="lime">Green</option>
+                        <option value="dodgerblue">Blue</option>
+                        <option value="magenta">Magenta</option>
+                        <option value="cyan">Cyan</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="right-panel">
+                <h3>Live Preview</h3>
+                <div class="preview-box" id="previewBox" style="color: yellow; background: black;">
+                    Hello LED World!
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button onclick="window.location.href='upload.html'">Back</button>
+            <button onclick="saveTextAndPreview()">Next</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function updatePreview() {
+            let text = document.getElementById("textInput").value;
+            document.getElementById("previewBox").innerText = text || "HELLO LED WORLD!";
+        }
+
+        function changeTextColor(color) {
+            document.getElementById("previewBox").style.color = color;
+        }
+
+        function saveTextAndPreview(){
+            localStorage.setItem("contentType", "text");
+            localStorage.setItem("displayText", document.getElementById("textInput").value);
+            localStorage.setItem("textX", document.getElementById("textX").value);
+            localStorage.setItem("textY", document.getElementById("textY").value);
+            localStorage.setItem("fontStyle", document.getElementById("fontStyle").value);
+            localStorage.setItem("textScale", document.getElementById("textScale").value);
+            localStorage.setItem("textColor", document.getElementById("textColor").value);
+            localStorage.setItem("textScroll", document.getElementById("textScroll").value);
+            localStorage.setItem("textSpeed", document.getElementById("textSpeed").value);
+            localStorage.setItem("bgColor", "black"); // Defaulting background to black
+            
+            window.location.href = "preview.html";
+        }
+    </script>
+</body>
+</html>

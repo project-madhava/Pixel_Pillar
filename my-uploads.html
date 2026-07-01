@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Uploads</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { text-align: center; color: white; }
+        .gallery-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px; }
+        .gallery-item { background: #1e293b; padding: 15px; border-radius: 10px; border: 1px solid #3b82f6; width: 250px; }
+        .gallery-item img { max-width: 100%; border-radius: 8px; }
+        .gallery-item button { margin-top: 10px; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <button class="logout-btn" onclick="window.location.href='upload.html'">Back to Dashboard</button>
+        <h1>My Uploads</h1>
+        <p class="subtitle">Your recent files stored on the Cloud</p>
+        
+        <div id="gallery" class="gallery-grid"></div>
+    </div>
+
+<script>
+const uid = localStorage.getItem("userUID");
+
+// CLOUD UPDATE: Removed http://localhost:5000
+fetch(`/my-uploads/${uid}`)
+.then(res => res.json())
+.then(data => {
+    let gallery = document.getElementById("gallery");
+    
+    if(data.length === 0) {
+        gallery.innerHTML = "<p>No uploads found.</p>";
+    }
+
+    data.forEach(item => {
+         gallery.innerHTML += `
+            <div class="gallery-item">
+                <img src="/${item.filePath}">
+                <p style="margin: 10px 0; font-size: 14px; word-wrap: break-word;">${item.fileName}</p>
+                <button onclick="publishImage('${item.filePath}')">Publish</button>
+            </div>
+        `;
+    });
+});
+
+async function publishImage(path){
+    
+    await fetch("/publish-log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            uid: localStorage.getItem("userUID"),
+            userName: localStorage.getItem("userName"),
+            userEmail: localStorage.getItem("userEmail"),
+            fileName: path
+        })
+    });
+    alert("Image Published!");
+}
+</script>
+
+</body>
+</html>

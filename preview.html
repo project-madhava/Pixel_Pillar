@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Preview Content</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="login-box">
+         <button
+    class="logout-btn"
+    onclick="logout()">
+    Sign Out
+</button>
+        <h1>Preview Content</h1>
+
+        <p class="subtitle">
+            Review before publishing
+        </p>
+
+        <div class="preview-page">
+
+            <!-- LEFT SIDE -->
+
+            <div class="preview-left">
+
+                <h3>Display Preview</h3>
+
+                <div
+                   class="preview-image-box"
+                   id="previewContainer">
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE -->
+
+            <div class="preview-right">
+
+                <h3>Display Info</h3>
+
+                <div class="info-card">
+
+                    <p id="typeInfo"></p>
+
+                    <p id="resolutionInfo">
+                        Resolution:
+                    </p>
+
+                    <p id="storageInfo">
+                        Storage Used:
+                    </p>
+                    <p id="sizeInfo"></p>
+
+                    <p id="colorInfo"></p>
+                    <p>
+                        <strong>LED Display:</strong>
+                        640 × 80 px
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        Ready To Publish
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="navigation">
+
+            <button onclick="goBack()">
+              Back
+            </button>
+
+            <button
+                onclick="window.location.href='publish.html'">
+                Publish
+            </button>
+
+        </div>
+
+    </div>
+<script>
+
+const type =
+localStorage.getItem("contentType");
+
+const container =
+document.getElementById(
+    "previewContainer"
+);
+
+document.getElementById(
+    "typeInfo"
+).innerHTML =
+"<strong>Type:</strong> " +
+type;
+
+
+/* IMAGE */
+
+if(type === "image"){
+
+    let imageData =
+    localStorage.getItem(
+        "uploadedImage"
+    );
+
+    container.innerHTML =
+    `<img
+        src="${imageData}"
+        class="final-preview-image"
+    >`;
+
+    document.getElementById(
+        "sizeInfo"
+    ).style.display = "none";
+
+    document.getElementById(
+        "colorInfo"
+    ).style.display = "none";
+
+}
+if(type === "video"){
+
+    let videoData =
+    localStorage.getItem(
+        "uploadedVideo"
+    );
+
+    container.innerHTML =
+    `<video
+    src="${videoData}"
+    controls
+    autoplay
+    muted
+    style="
+    width:100%;
+    border-radius:10px;
+    ">
+</video>`;
+
+    document.getElementById(
+        "sizeInfo"
+    ).style.display = "none";
+
+    document.getElementById(
+        "colorInfo"
+    ).style.display = "none";
+
+}
+
+if(type === "gif"){
+
+    let gifData =
+    localStorage.getItem(
+        "uploadedImage"
+    );
+
+    container.innerHTML =
+    `<img
+        src="${gifData}"
+        class="final-preview-image"
+    >`;
+
+    document.getElementById(
+        "sizeInfo"
+    ).style.display = "none";
+
+    document.getElementById(
+        "colorInfo"
+    ).style.display = "none";
+
+}
+
+
+
+/* TEXT */
+
+if(type === "text"){
+
+    let text =
+    localStorage.getItem(
+        "displayText"
+    );
+
+    let scale =
+    localStorage.getItem(
+        "textScale"
+    );
+
+    let textColor =
+    localStorage.getItem(
+        "textColor"
+    );
+
+    let bgColor =
+    localStorage.getItem(
+        "bgColor"
+    );
+
+    container.innerHTML =
+    `<div class="preview-box"
+        style="
+        color:${textColor};
+        background:${bgColor};
+        ">
+        ${text}
+    </div>`;
+
+    document.getElementById(
+        "resolutionInfo"
+    ).style.display = "none";
+
+    document.getElementById(
+        "storageInfo"
+    ).style.display = "none";
+
+    document.getElementById(
+        "sizeInfo"
+    ).innerHTML =
+    "<strong>Text Size:</strong> "
+    + scale + "x";
+
+    document.getElementById(
+        "colorInfo"
+    ).innerHTML =
+    "<strong>Text Colour:</strong> "
+    + textColor +
+    "<br><strong>Background:</strong> "
+    + bgColor;
+}
+
+
+/* IMAGE INFO */
+
+let width =
+localStorage.getItem(
+    "imageWidth"
+);
+
+let height =
+localStorage.getItem(
+    "imageHeight"
+);
+
+if(width && height){
+
+    document.getElementById(
+        "resolutionInfo"
+    ).innerHTML =
+    "<strong>Original Resolution:</strong> "
+    + width +
+    " × " +
+    height;
+
+}
+
+let storage =
+localStorage.getItem(
+    "storageUsed"
+);
+
+if(storage){
+
+    document.getElementById(
+        "storageInfo"
+    ).innerHTML =
+    "<strong>Storage Used:</strong> "
+    + storage +
+    " MB";
+
+}
+function goBack(){
+
+    let type =
+    localStorage.getItem(
+        "contentType"
+    );
+
+    if(type==="image"){
+
+        window.location.href =
+        "upload-image.html";
+    }
+
+    else if(type==="gif"){
+
+        window.location.href =
+        "upload-gif.html";
+    }
+
+    else if(type==="video"){
+
+        window.location.href =
+        "upload-video.html";
+    }
+
+    else if(type==="text"){
+
+        window.location.href =
+        "text-colour.html";
+    }
+}
+</script>
+<script src="script.js"></script>
+</body>
+
+</html>

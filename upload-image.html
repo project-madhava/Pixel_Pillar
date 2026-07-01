@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+    function goToPreview(){
+        localStorage.setItem("contentType", "image");
+        localStorage.setItem("mediaScale", document.getElementById("mediaScale").value);
+        localStorage.setItem("mediaScroll", document.getElementById("mediaScroll").value);
+        localStorage.setItem("mediaSpeed", document.getElementById("mediaSpeed").value);
+        window.location.href = "preview.html";
+    }
+    </script>
+</head>
+<body>
+
+<div class="login-box">
+    <button class="logout-btn" onclick="logout()">Sign Out</button>
+    <h1>Upload Content</h1>
+
+    <div class="storage-box">
+        <h3>Storage Used</h3>
+        <div class="progress-bar">
+            <div id="progressFill"></div>
+        </div>
+        <p id="storageText">0 MB / 5 MB Used</p>
+    </div>
+
+    <p id="userInfo"></p>
+    <p class="subtitle">Upload Image for LED Display</p>
+    
+    <button onclick="window.location.href='my-uploads.html'" style="margin-bottom: 15px;">My Uploads</button>
+    
+    <div class="drag-area">
+        <p>📁 Drag & Drop File Here</p>
+        <p>or</p>
+        <input type="file" id="fileInput" accept=".jpg,.jpeg,.png" onchange="previewImage(event)">
+        <button type="button" onclick="document.getElementById('fileInput').click()">Browse File</button>
+        <p id="fileName"></p>
+        <img id="previewImage" src="" alt="Preview Image" style="display:none; max-width: 100%;">
+
+        <div style="margin-top: 20px; text-align: left; background: #1e293b; padding: 15px; border-radius: 8px;">
+            <label style="color: white; font-weight: bold; display: block; margin-bottom: 5px;">Media Scale (%):</label>
+            <input type="number" id="mediaScale" value="100" min="10" max="300" style="width: 100%; padding: 8px; border-radius: 5px; margin-bottom: 15px;">
+            
+            <label style="color: white; font-weight: bold; display: block; margin-bottom: 5px;">Panoramic Scroll:</label>
+            <select id="mediaScroll" style="width: 100%; padding: 8px; border-radius: 5px; margin-bottom: 15px;">
+                <option value="false">Off (Static)</option>
+                <option value="true">On (Scrolling)</option>
+            </select>
+
+            <label style="color: white; font-weight: bold; display: block; margin-bottom: 5px;">Scroll Speed (1=Slow, 10=Fast):</label>
+            <input type="number" id="mediaSpeed" value="5" min="1" max="10" style="width: 100%; padding: 8px; border-radius: 5px;">
+        </div>
+        <p class="file-info">
+            Supported: JPG • PNG<br><br>
+            Recommended LED Resolution: 640 × 80 px<br><br>
+            Images will be automatically resized to fit the LED panel.
+        </p>
+    </div>
+    
+    <div class="navigation">
+        <button onclick="window.location.href='upload.html'">Back</button>
+        <button id="nextBtn" onclick="goToPreview()" disabled>Next</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

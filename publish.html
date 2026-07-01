@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publish Status</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="login-box">
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+            Sign Out
+        </button>
+
+        <div style="text-align:center;">
+
+            <div style="font-size:90px;">
+                ✅
+            </div>
+
+            <h1>Successfully Published!</h1>
+
+            <p class="subtitle">
+                Your content has been sent to the LED Panel
+            </p>
+
+        </div>
+
+        <div class="info-card">
+
+            <p>✅ File Upload Completed</p>
+
+            <p>✅ Content Processing Completed</p>
+
+            <p>✅ LED Panel Updated</p>
+
+        </div>
+
+        <br>
+
+        <div class="navigation">
+
+            <button onclick="window.location.href='index.html'">
+                Go To Dashboard
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+ window.onload = async function () {
+    try {
+        const isText = localStorage.getItem("contentType") === "text";
+        const payload = {
+            type: localStorage.getItem("contentType"),
+            file_path: "uploads/" + localStorage.getItem("fileName"),
+            text: localStorage.getItem("displayText"),
+            text_color: localStorage.getItem("textColor"),
+            bg_color: localStorage.getItem("bgColor") || "black",
+            scale: isText ? localStorage.getItem("textScale") : localStorage.getItem("mediaScale"),
+            scroll: isText ? localStorage.getItem("textScroll") : localStorage.getItem("mediaScroll"),
+            speed: isText ? localStorage.getItem("textSpeed") : localStorage.getItem("mediaSpeed"),
+            x: localStorage.getItem("textX") || "60",
+            y: localStorage.getItem("textY") || "140",
+            font_style: localStorage.getItem("fontStyle") || "5x7"
+        };
+        await fetch("/publish-final", {
+            method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
+        });
+        document.getElementById("statusText").innerText = "Successfully Published!";
+    } catch (err) { console.log(err); }
+};
+</script>
+</body>
+
+</html>

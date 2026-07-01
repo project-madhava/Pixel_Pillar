@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Content Type</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function checkStatus() {
+            fetch('/api/status').then(res => res.json()).then(data => {
+                const badge = document.getElementById('wifiBadge');
+                if(data.online) {
+                    badge.innerText = "🟢 PixelPillar Online"; badge.style.background = "#10b981";
+                } else {
+                    badge.innerText = "🔴 PixelPillar Offline"; badge.style.background = "#ef4444";
+                }
+            }).catch(() => { document.getElementById('wifiBadge').innerText = "⚠️ Cloud Disconnected"; });
+        }
+        setInterval(checkStatus, 2000); window.onload = checkStatus;
+    </script>
+</head>
+<body>
+    <div class="login-box">
+        <button class="logout-btn" onclick="logout()">Sign Out</button>
+        <div id="wifiBadge" style="padding: 10px; margin-bottom: 20px; border-radius: 8px; text-align: center; color: white; font-weight: bold; background: #ef4444;">🔴 PixelPillar Offline</div>
+        <h1>Choose Content Type</h1>
+        <p class="subtitle">Select what you want to display</p>
+        <div class="card-container">
+            <div class="upload-card" onclick="window.location.href='upload-image.html'"><div class="emoji">🖼️</div><h3>Image</h3><p>Upload JPG / PNG</p></div>
+            <div class="upload-card" onclick="window.location.href='upload-gif.html'"><div class="emoji">🎞️</div><h3>GIF</h3><p>Upload GIF File</p></div>
+            <div class="upload-card" onclick="window.location.href='upload-video.html'"><div class="emoji">🎥</div><h3>Video</h3><p>Upload MP4 Video</p></div>
+            <div class="upload-card" onclick="window.location.href='text-colour.html'"><div class="emoji">✏️</div><h3>Text</h3><p>Create Text Content</p></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

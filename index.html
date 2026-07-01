@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LED Panel Control</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="login-box">
+
+        <div class="icon">📺</div>
+
+        <h1>LED PANEL CONTROL</h1>
+
+        <p class="subtitle">
+            Welcome Back! Please login to continue
+        </p>
+
+        <!-- Google Login -->
+
+        <button
+            class="oauth-btn"
+            onclick="googleLogin()">
+
+            <img
+            src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">
+
+            Continue With Google
+
+        </button>
+
+        <!-- GitHub Login -->
+
+        <button
+            class="oauth-btn"
+            onclick="githubLogin()">
+
+            <img
+            src="https://cdn-icons-png.flaticon.com/512/25/25231.png">
+
+            Continue With GitHub
+
+        </button>
+
+      
+
+    </div>
+
+    <script
+        type="module"
+        src="firebase-auth.js">
+    </script>
+
+</body>
+
+</html>
