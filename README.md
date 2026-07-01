@@ -1,7 +1,7 @@
 # 🌟 PixelPillar: 
 
 This 360° Smart LED display configured using RGB P10 Panels handled via Vega Aries v3. It is completely wireless and controlled entirely through the cloud, meaning you can update your display from your phone remotely.
-<img width="963" height="1600" alt="image" src="https://github.com/user-attachments/assets/fd7ca215-34b6-44b4-b458-eff9434f8c3c" />
+<img width="500" height="830" alt="image" src="https://github.com/user-attachments/assets/fd7ca215-34b6-44b4-b458-eff9434f8c3c" />
 
 ---
 
@@ -43,6 +43,8 @@ Once you have your content looking good, simply click **Publish** and watch your
 
 ## ❓ Troubleshooting
 
-**Q: The dashboard says "🔴 PixelPillar Offline". What do I do?** A: This means your physical screen cannot reach the internet. Ensure it is plugged into power and that Wi-Fi router/ Mobile Data is turned on. 
+**Q: The dashboard says "🔴 PixelPillar Offline". What do I do?** 
+A: This means your physical screen cannot reach the internet. Ensure it is plugged into power and that Wi-Fi router/ Mobile Data is turned on. 
 
-**Q: I changed my device's Wi-Fi password, or I moved the Pillar to a new location. How do I reconnect it?** A: If the PixelPillar cannot find its saved Wi-Fi network, it will automatically broadcast the **`PixelPillar_Setup`** network again. Just repeat Step 1 to give it your new Wi-Fi details!
+**Q: I changed my device's Wi-Fi password, or I moved the Pillar to a new location. How do I reconnect it?** 
+A: If the PixelPillar cannot find its saved Wi-Fi network, it will automatically broadcast the **`PixelPillar_Setup`** network again. Just repeat Step 1 to give it your new Wi-Fi details!
