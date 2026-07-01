@@ -24,7 +24,7 @@
                 
                 <div class="form-group">
                     <label>Display Text:</label>
-                    <input type="text" id="textInput" placeholder="Hello LED World!" value="Hello LED World!" oninput="updatePreview()">
+                    <input type="text" id="textInput" placeholder="Nishil" value="Nishil" oninput="updatePreview()">
                 </div>
 
                 <div class="settings-box">
@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Scale Multiplier:</label>
+                    <label>Scale (Only applies to 5x7):</label>
                     <input type="number" id="textScale" value="2" min="1" max="10">
                 </div>
 
@@ -82,7 +82,7 @@
             <div class="right-panel">
                 <h3>Live Preview</h3>
                 <div class="preview-box" id="previewBox" style="color: yellow; background: black;">
-                    Hello LED World!
+                    Nishil
                 </div>
             </div>
         </div>
@@ -114,10 +114,12 @@
             localStorage.setItem("textColor", document.getElementById("textColor").value);
             localStorage.setItem("textScroll", document.getElementById("textScroll").value);
             localStorage.setItem("textSpeed", document.getElementById("textSpeed").value);
-            localStorage.setItem("bgColor", "black"); // Defaulting background to black
+            localStorage.setItem("bgColor", "black"); 
             
             window.location.href = "preview.html";
         }
+        
+        updatePreview();
     </script>
 </body>
 </html>
