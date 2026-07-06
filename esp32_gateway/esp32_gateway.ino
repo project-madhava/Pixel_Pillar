@@ -1,8 +1,8 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <WiFiManager.h> // The Captive Portal Magic!
+#include <WiFiManager.h> 
 
-// YOUR FINAL CLOUD SERVER URL
+// CLOUD SERVER URL
 String serverUrl = "https://nishil-patel-pixelpillar.hf.space"; 
 
 String versionUrl = serverUrl + "/version";
@@ -22,7 +22,6 @@ void setup() {
   Serial.println("📡 Starting WiFiManager Captive Portal...");
   
   WiFiManager wm;
-  // If no saved Wi-Fi is found, it broadcasts "PixelPillar_Setup"
   bool res = wm.autoConnect("PixelPillar_Setup"); 
 
   if(!res) {
@@ -37,10 +36,17 @@ void setup() {
 void sendByteOverWires(uint8_t b) {
   for (int i = 0; i < 8; i++) {
     digitalWrite(DATA_PIN, (b >> i) & 1);
+    
+    // HIGH-STABILITY FIX: Gives the jumper wire time to settle the voltage
+    delayMicroseconds(10); 
     digitalWrite(CLOCK_PIN, HIGH);
-    delayMicroseconds(5); // Ultra-fast 5us clock for massive payloads
+    
+    // Distinct, stable HIGH pulse
+    delayMicroseconds(15); 
     digitalWrite(CLOCK_PIN, LOW);
-    delayMicroseconds(5);
+    
+    // Distinct, stable LOW pulse
+    delayMicroseconds(15); 
   }
 }
 
@@ -65,7 +71,7 @@ void fetchAndStreamImage() {
         uint8_t buffer[256]; 
         int c = stream->readBytes(buffer, ((size > sizeof(buffer)) ? sizeof(buffer) : size));
         for(int i = 0; i < c; i++) sendByteOverWires(buffer[i]); 
-        yield(); // Feed watchdog to prevent crashes
+        yield(); 
         if (len > 0) len -= c;
       }
     }
@@ -92,5 +98,5 @@ void loop() {
     }
     http.end();
   }
-  delay(3000); // 3 Second Heartbeat Ping and Polling loop
+  delay(3000); 
 }
