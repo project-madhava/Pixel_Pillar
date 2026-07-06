@@ -98,17 +98,38 @@ def get_version():
 def get_screen():
     pixels = master_canvas.load()
     byte_array = bytearray()
+    
+    # 5-Byte Instruction Header exactly matching Aries Smart-Sync
     byte_array.extend([0xAA, scroll_flag, scroll_speed, 0x01, 0x00])
+    
+    # 102,400 Bytes of RGB444 Pixels
     for y in range(TARGET_H):
         for x in range(TARGET_W):
             r, g, b = pixels[x, y]
             packed = (int(r/255*15) << 8) | (int(g/255*15) << 4) | int(b/255*15)
             byte_array.append(packed >> 8)
             byte_array.append(packed & 0xFF)
+            
     return send_file(io.BytesIO(byte_array), mimetype='application/octet-stream')
 
+# ==========================================
+# MISSING ENDPOINTS ADDED TO PREVENT JS 404s
+# ==========================================
+@app.route('/my-uploads/<uid>', methods=['GET'])
+def get_my_uploads(uid):
+    """Scans the uploads folder and sends images back to the user's gallery."""
+    files = []
+    if os.path.exists("uploads"):
+        for f in os.listdir("uploads"):
+            files.append({"fileName": f, "filePath": f"uploads/{f}"})
+    return jsonify(files)
+
+@app.route('/save-user', methods=['POST'])
+@app.route('/publish-log', methods=['POST'])
+@app.route('/publish-media', methods=['POST'])
 @app.route('/logout-log', methods=['POST'])
-def mock_logs(): return jsonify({"success": True})
+def mock_logs(): 
+    return jsonify({"success": True})
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
