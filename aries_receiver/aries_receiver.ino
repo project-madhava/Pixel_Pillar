@@ -6,7 +6,6 @@
 
 AriesPWM_Matrix display(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);
 uint8_t imageBuffer[102400]; 
-
 int scrollX = 0;
 bool isScrolling = false;
 int scrollSpeed = 5;
@@ -24,16 +23,20 @@ void setup() {
 void loop() {
     if (digitalRead(CS_PIN) == LOW) {
         Serial.println("\n🔗 ESP32 Connection Detected (CS LOW). Waking up...");
-        long byteCount = 0; 
-        uint8_t header[5];
         
-        while (digitalRead(CS_PIN) == LOW && byteCount < 102405) {
+        long pixelBytes = 0; 
+        uint8_t header[5] = {0,0,0,0,0};
+        bool synced = false;
+        int hIdx = 0;
+        int garbageCount = 0;
+        
+        while (digitalRead(CS_PIN) == LOW && pixelBytes < 102400) {
             uint8_t receivedByte = 0;
             for (int i = 0; i < 8; i++) {
                 unsigned long timeout = micros();
                 
                 while (digitalRead(CLOCK_PIN) == LOW) { 
-                    if (digitalRead(CS_PIN) == HIGH || micros() - timeout > 2000000) {
+                    if (digitalRead(CS_PIN) == HIGH || micros() - timeout > 5000000) {
                         Serial.println("❌ Transfer aborted during LOW clock wait.");
                         goto transfer_end; 
                     }
@@ -43,30 +46,52 @@ void loop() {
                 timeout = micros();
                 
                 while (digitalRead(CLOCK_PIN) == HIGH) { 
-                    if (micros() - timeout > 2000000) {
+                    if (micros() - timeout > 5000000) {
                         Serial.println("❌ Transfer aborted during HIGH clock wait.");
                         goto transfer_end; 
                     }
                 }
             }
-            if (byteCount < 5) header[byteCount] = receivedByte;
-            else imageBuffer[byteCount - 5] = receivedByte;
-            byteCount++;
+            
+            // SMART-SYNC LOGIC: Hunt for the 0xAA password
+            if (!synced) {
+                if (hIdx == 0) {
+                    if (receivedByte == 0xAA) {
+                        header[0] = 0xAA;
+                        hIdx = 1; // Found the start! Move to next header byte
+                    } else {
+                        garbageCount++; // Throw away HTTP junk bytes
+                    }
+                } else {
+                    header[hIdx] = receivedByte;
+                    hIdx++;
+                    if (hIdx == 5) synced = true; // Header complete!
+                }
+            } else {
+                imageBuffer[pixelBytes] = receivedByte;
+                pixelBytes++;
+            }
         }
         
         transfer_end:
-        if (byteCount == 102405 && header[0] == 0xAA) {
+        if (synced && pixelBytes == 102400) {
             isScrolling = (header[1] == 1);
             scrollSpeed = constrain(header[2], 1, 10);
             scrollX = 0;
             
-            Serial.println("✅ Payload successfully received !");
+            Serial.println("✅ Smart-Sync Payload successfully received!");
+            if (garbageCount > 0) {
+                Serial.print("⚠️ Auto-Healed: Skipped "); Serial.print(garbageCount); Serial.println(" garbage bytes from Cloud.");
+            }
             Serial.print("➡️ Mode: "); Serial.print(isScrolling ? "Panoramic Scrolling" : "Static Image");
             Serial.print(" | Speed: "); Serial.println(scrollSpeed);
             Serial.println("🚀 Display updated with new True Color content!");
         } else {
-            Serial.print("⚠️ Incomplete or corrupt data received. Bytes caught: ");
-            Serial.println(byteCount);
+            Serial.println("⚠️ Incomplete or corrupt data received.");
+            Serial.print("   -> Locked onto Header? "); Serial.println(synced ? "Yes" : "No");
+            Serial.print("   -> First byte found: 0x"); Serial.println(header[0], HEX);
+            Serial.print("   -> Garbage bytes skipped: "); Serial.println(garbageCount);
+            Serial.print("   -> Pixel Bytes caught: "); Serial.println(pixelBytes);
         }
         Serial.println("⏳ Rendering and waiting for next upload...");
     }
